@@ -1,12 +1,7 @@
-
 $(document).ready(function(){
     console.log("hello world");
     $("#addProdBtn").click(function(){
         add_product();
-    });
-    $(".close").click(function(){
-        $(".error").attr("style","display:none");
-        $(".success").attr("style","display:none");
     });
    
 
@@ -20,7 +15,7 @@ function add_product() {
     console.log(pquantity);
 
     if(checkData(sku, pname, pprice, pquantity)) {
-        checkUnique(sku, pname, pprice, pquantity);
+        checkUnique(sku, pname, pprice);
         display();
     }
 
@@ -78,13 +73,10 @@ function display() {
     var result = "";
 
     if (prodArray.length === 0) {
-        $(".error").attr("style","display:block");
-        $(".err_msg").html( "<p>No record found</p>");
-        $(".table_output").html("");
+        $("#product_list").html( "<p>No record found</p>");
     }
     else {
-        $(".succ_msg").html( "Successfully.");
-        $(".success").attr("style","display:block");
+
         for (var i = 0; i < prodArray.length; i++) {
             result += `<tr>
             <td>${prodArray[i].id}</td>
@@ -95,6 +87,7 @@ function display() {
             <a href ="#" onclick="deleteProd('${prodArray[i].id}')">Delete</a></td>
             </tr>`;
         }
+        $(".table_output").html(result);
         $(".table_output").html ("<table>\
         <tr>\
             <th>SKU</th>\
@@ -104,7 +97,6 @@ function display() {
             <th>Action</th>\
         </tr>"+result+"\</table>");
         
-        
         }
     }
 
@@ -112,20 +104,14 @@ function display() {
 
     function dataEdit(id) {
         var prodArr = getData(id);
-        $("#product_sku").val(prodArr.id);
-        $("#product_name").val(prodArr.name);
-        $("#product_price").val(prodArr.price) ;
-        $("#product_quantity").val(prodArr.quantity)  ;
-        $("#updateProdBtn").click(function(){
-            updateProdArr(id);
-            $("#updateProdBtn").attr("style","display:none");
-            $("#addProdBtn").attr("style","display:block");
-            $( "#product_sku" ).prop( "disabled", false );
-
-        });
-        $("#updateProdBtn").attr("style","display:block");
-        $("#addProdBtn").attr("style","display:none");
-        $( "#product_sku" ).prop( "disabled", true );
+        $("#product_sku").val() = prodArr.id;
+        $("#product_name").val() = prodArr.name;
+        $("#product_price").val() = prodArr.price;
+        $("#product_quantity").val() = prodArr.price;
+        $("#updateProdBtn").style = "display:block";
+        $("#updateProdBtn").setAttribute("onclick", `updateProdArr(${id})`);
+        $("#addProdBtn").style = "display:none";
+        $("#product_sku").setAttribute("disabled",'disabled');
     
     }
     //fetch product id
@@ -141,24 +127,23 @@ function display() {
     function updateProdArr(id) {
         for (let i = 0; i < prodArray.length; i++) {
             if (prodArray[i].id == id) {
-                prodArray[i].id = $("#product_sku").val();
-                prodArray[i].name = $("#product_name").val();
-                prodArray[i].price = $("#product_price").val();
-                prodArray[i].quantity = $("#product_quantity").val()
+                prodArray[i].name = $("prodName").val();
+                prodArray[i].price = $("prodPrice").val();
             }
-            $(".success").attr("style","display:block");
-            $(".succ_msg").html( "Product Updated Successfully.");
+           
         }
         display();
     }
     function deleteProd(id){
-        for (let i =0; i<prodArray.length; i++){
+        if (prodArray.length === 0){
+            $(".error").html("No record found")
+        }
+        for (let i =0; i< prodArray.length; i++){
             if (prodArray[i].id == id){
                 prodArray.splice(i, 1);
                 display();
                 break;
             }
         }
-        
         
     }

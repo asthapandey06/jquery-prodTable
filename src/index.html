@@ -25,11 +25,13 @@
 			</label>
 			<p class="submit">
 				<input type="button" name="add_product" id="addProdBtn" value="Add Product">
+				<input type="button" name="add_product" id="updateProdBtn" value="Update Product" hidden>
+
 			</p>
 		</div>
 		<div id="notification">
-			<div class="success">Product Added Successfully.<a href="#" class="close">X</a></div>
-			<div class="error">There is some problem.<a href="#" class="close">X</a></div>
+			<div class="success" style="display: none;"><p class ="succ_msg"></p></p><a href="#" class="close">X</a></div>
+			<div class="error" style="display: none;"><p class= "err_msg"></p><a href="#" class="close">X</a></div>
 		</div>
 		<div >
 			<table class="table_output">
